@@ -160,6 +160,10 @@ dependencies = [
     { name = "httpx" },
     { name = "jsonref" },
     { name = "openapi-spec-validator" },
+]
+
+[package.dev-dependencies]
+dev = [
     { name = "pytest" },
 ]
 
@@ -169,8 +173,10 @@ requires-dist = [
     { name = "httpx", specifier = ">=0.28.1" },
     { name = "jsonref", specifier = ">=1.1.0" },
     { name = "openapi-spec-validator", specifier = ">=0.7.1" },
-    { name = "pytest", specifier = ">=8.3.4" },
 ]
+
+[package.metadata.requires-dev]
+dev = [{ name = "pytest", specifier = ">=8.3.4" }]
 
 [[package]]
 name = "h11"
