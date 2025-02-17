@@ -1,0 +1,1451 @@
+{
+    "openapi": "3.1.0",
+    "info": {
+      "title": "AIS Live API",
+      "description": "\nAPI for retrieval of AIS (Automatic Identification System) data. The data is provided by The Norwegian Coastal Administration (Kystverket).\n\nThis is a JSON streaming API for a subset of the data available in the AIS data. As long as you are connected you will receive new messages as they arrive.\n\nSome endpoints allow downsampling. When downsampling is enabled maximum one message per minute per mmsi/vessel is sent.\n\nAIS message types in this API:\n* AIS message type 1, 2, 3, 27: position report, output as type 'Position'\n* AIS message type 5, 18, 19, 24: static and voyage related data, output as type 'StaticData'\n* AIS message type 21: Aids-to-navigation, output as type 'Aton'\n\nMore message types may be added in the future.\n\nDetails about the AIS standard and different message types can be found here: [https://gpsd.gitlab.io/gpsd/AIVDM.html#_ais_payload_interpretation](https://gpsd.gitlab.io/gpsd/AIVDM.html#_ais_payload_interpretation) .\n\nThis API is used by [NAIS](https://nais.kystverket.no), a Norwegian Coastal Administration application for viewing maritime traffic in Norwegian waters.\n\n### Authentication\nBefore using this API you need to register a user at barentswatch.no and create an AIS-API client at My Page. Instructions and examples can be found here: [https://developer.barentswatch.no/docs/appreg](https://developer.barentswatch.no/docs/appreg)\n\n### API news\nGeneral API information and notifications about changes to the API: [https://developer.barentswatch.no](https://developer.barentswatch.no)\n\n\n",
+      "contact": {
+        "name": "API information and contact information",
+        "url": "https://www.barentswatch.no/artikler/apnedata/"
+      },
+      "license": {
+        "name": "NLOD",
+        "url": "https://data.norge.no/nlod"
+      },
+      "version": "v1"
+    },
+    "servers": [
+      {
+        "url": "https://live.ais.barentswatch.no/live"
+      }
+    ],
+    "paths": {
+      "/v1/latest/ais": {
+        "post": {
+          "tags": [
+            "AIS-Latest"
+          ],
+          "summary": "Get the latest AIS messages per MMSI within 24 hours.",
+          "operationId": "getLatestAisMessages",
+          "description": "When the application has just started up we have history for a maximum of 6 hours back in time.",
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Ais.LiveApi.Api.LatestAis.Models.LatestAisFilterInput"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Ais.LiveApi.Api.LatestAis.Models.LatestAisFilterInput"
+                }
+              },
+              "application/*+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Ais.LiveApi.Api.LatestAis.Models.LatestAisFilterInput"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "OK",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "oneOf": [
+                        {
+                          "$ref": "#/components/schemas/Ais.Shared.Messages.OutputMessages.OutputAtonMessage"
+                        },
+                        {
+                          "$ref": "#/components/schemas/Ais.Shared.Messages.OutputMessages.OutputBinaryBroadcastMessageMetHyd"
+                        },
+                        {
+                          "$ref": "#/components/schemas/Ais.Shared.Messages.OutputMessages.OutputPositionMessage"
+                        },
+                        {
+                          "$ref": "#/components/schemas/Ais.Shared.Messages.OutputMessages.OutputStaticDataMessage"
+                        },
+                        {
+                          "$ref": "#/components/schemas/Ais.Shared.Messages.OutputMessages.OutputSafetyRelatedMessage"
+                        }
+                      ]
+                    }
+                  }
+                },
+                "text/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "oneOf": [
+                        {
+                          "$ref": "#/components/schemas/Ais.Shared.Messages.OutputMessages.OutputAtonMessage"
+                        },
+                        {
+                          "$ref": "#/components/schemas/Ais.Shared.Messages.OutputMessages.OutputBinaryBroadcastMessageMetHyd"
+                        },
+                        {
+                          "$ref": "#/components/schemas/Ais.Shared.Messages.OutputMessages.OutputPositionMessage"
+                        },
+                        {
+                          "$ref": "#/components/schemas/Ais.Shared.Messages.OutputMessages.OutputStaticDataMessage"
+                        },
+                        {
+                          "$ref": "#/components/schemas/Ais.Shared.Messages.OutputMessages.OutputSafetyRelatedMessage"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/v1/latest/combined": {
+        "post": {
+          "tags": [
+            "AIS-Latest"
+          ],
+          "operationId": "getLatestAisMessagesCombinedInfo",
+          "summary": "Get the latest AIS messages per MMSI within 24 hours.",
+          "description": "When the application has just started up we have history for a maximum of 6 hours back in time.\r\nGeojson returns a list with GeoJSON features.\r\nFeatureCollection returns a FeatureCollection object.",
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Ais.LiveApi.Api.LatestAis.Models.LatestAisCombinedFilterInput"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Ais.LiveApi.Api.LatestAis.Models.LatestAisCombinedFilterInput"
+                }
+              },
+              "application/*+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Ais.LiveApi.Api.LatestAis.Models.LatestAisCombinedFilterInput"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "OK",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "oneOf": [
+                      {
+                        "$ref": "#/components/schemas/Ais.Shared.Messages.OutputMessages.AisComboFull"
+                      },
+                      {
+                        "$ref": "#/components/schemas/Ais.Shared.Messages.OutputMessages.AisComboSimple"
+                      },
+                      {
+                        "title": "GeoJson AIS Feature",
+                        "required": [
+                          "type",
+                          "geometry",
+                          "properties"
+                        ],
+                        "type": "object",
+                        "properties": {
+                          "type": {
+                            "enum": [
+                              "Feature"
+                            ],
+                            "type": "string",
+                            "default": "Feature"
+                          },
+                          "geometry": {
+                            "title": "GeoJson Geometry",
+                            "type": "object",
+                            "anyOf": [
+                              {
+                                "title": "GeoJson Point Geometry",
+                                "required": [
+                                  "type",
+                                  "coordinates"
+                                ],
+                                "type": "object",
+                                "properties": {
+                                  "type": {
+                                    "enum": [
+                                      "Point"
+                                    ],
+                                    "type": "string",
+                                    "default": "Point"
+                                  },
+                                  "coordinates": {
+                                    "minItems": 2,
+                                    "type": "array",
+                                    "items": {
+                                      "type": "number"
+                                    },
+                                    "example": [
+                                      10.4,
+                                      60.5
+                                    ]
+                                  }
+                                }
+                              },
+                              {
+                                "title": "GeoJson LineString Geometry",
+                                "required": [
+                                  "type",
+                                  "coordinates"
+                                ],
+                                "type": "object",
+                                "properties": {
+                                  "type": {
+                                    "enum": [
+                                      "LineString"
+                                    ]
+                                  },
+                                  "coordinates": {
+                                    "minItems": 2,
+                                    "type": "array",
+                                    "items": {
+                                      "minItems": 2,
+                                      "type": "array",
+                                      "items": {
+                                        "type": "number"
+                                      },
+                                      "example": [
+                                        10.4,
+                                        60.5
+                                      ]
+                                    }
+                                  }
+                                }
+                              },
+                              {
+                                "title": "GeoJson Polygon Geometry",
+                                "required": [
+                                  "type",
+                                  "coordinates"
+                                ],
+                                "type": "object",
+                                "properties": {
+                                  "type": {
+                                    "enum": [
+                                      "Polygon"
+                                    ]
+                                  },
+                                  "coordinates": {
+                                    "minItems": 4,
+                                    "type": "array",
+                                    "items": {
+                                      "type": "array",
+                                      "items": {
+                                        "minItems": 2,
+                                        "type": "array",
+                                        "items": {
+                                          "type": "number"
+                                        },
+                                        "example": [
+                                          10.4,
+                                          60.5
+                                        ]
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            ]
+                          },
+                          "properties": {
+                            "title": "GeoJson AIS Feature Properties",
+                            "type": "object",
+                            "properties": {
+                              "mmsi": {
+                                "type": "integer",
+                                "default": 0,
+                                "example": 123456789
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ],
+                    "description": "Output format is decided by modelFormat and modelType"
+                  }
+                },
+                "text/json": {
+                  "schema": {
+                    "oneOf": [
+                      {
+                        "$ref": "#/components/schemas/Ais.Shared.Messages.OutputMessages.AisComboFull"
+                      },
+                      {
+                        "$ref": "#/components/schemas/Ais.Shared.Messages.OutputMessages.AisComboSimple"
+                      },
+                      {
+                        "title": "GeoJson AIS Feature",
+                        "required": [
+                          "type",
+                          "geometry",
+                          "properties"
+                        ],
+                        "type": "object",
+                        "properties": {
+                          "type": {
+                            "enum": [
+                              "Feature"
+                            ],
+                            "type": "string",
+                            "default": "Feature"
+                          },
+                          "geometry": {
+                            "title": "GeoJson Geometry",
+                            "type": "object",
+                            "anyOf": [
+                              {
+                                "title": "GeoJson Point Geometry",
+                                "required": [
+                                  "type",
+                                  "coordinates"
+                                ],
+                                "type": "object",
+                                "properties": {
+                                  "type": {
+                                    "enum": [
+                                      "Point"
+                                    ],
+                                    "type": "string",
+                                    "default": "Point"
+                                  },
+                                  "coordinates": {
+                                    "minItems": 2,
+                                    "type": "array",
+                                    "items": {
+                                      "type": "number"
+                                    },
+                                    "example": [
+                                      10.4,
+                                      60.5
+                                    ]
+                                  }
+                                }
+                              },
+                              {
+                                "title": "GeoJson LineString Geometry",
+                                "required": [
+                                  "type",
+                                  "coordinates"
+                                ],
+                                "type": "object",
+                                "properties": {
+                                  "type": {
+                                    "enum": [
+                                      "LineString"
+                                    ]
+                                  },
+                                  "coordinates": {
+                                    "minItems": 2,
+                                    "type": "array",
+                                    "items": {
+                                      "minItems": 2,
+                                      "type": "array",
+                                      "items": {
+                                        "type": "number"
+                                      },
+                                      "example": [
+                                        10.4,
+                                        60.5
+                                      ]
+                                    }
+                                  }
+                                }
+                              },
+                              {
+                                "title": "GeoJson Polygon Geometry",
+                                "required": [
+                                  "type",
+                                  "coordinates"
+                                ],
+                                "type": "object",
+                                "properties": {
+                                  "type": {
+                                    "enum": [
+                                      "Polygon"
+                                    ]
+                                  },
+                                  "coordinates": {
+                                    "minItems": 4,
+                                    "type": "array",
+                                    "items": {
+                                      "type": "array",
+                                      "items": {
+                                        "minItems": 2,
+                                        "type": "array",
+                                        "items": {
+                                          "type": "number"
+                                        },
+                                        "example": [
+                                          10.4,
+                                          60.5
+                                        ]
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            ]
+                          },
+                          "properties": {
+                            "title": "GeoJson AIS Feature Properties",
+                            "type": "object",
+                            "properties": {
+                              "mmsi": {
+                                "type": "integer",
+                                "default": 0,
+                                "example": 123456789
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ],
+                    "description": "Output format is decided by modelFormat and modelType"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "components": {
+      "schemas": {
+        "Ais.LiveApi.Api.LatestAis.Models.LatestAisCombinedFilterInput": {
+          "type": "object",
+          "properties": {
+            "modelType": {
+              "$ref": "#/components/schemas/Ais.Shared.Models.Enums.ModelType"
+            },
+            "geometry": {
+              "title": "GeoJson Polygon Geometry",
+              "required": [
+                "type",
+                "coordinates"
+              ],
+              "type": "object",
+              "properties": {
+                "type": {
+                  "enum": [
+                    "Polygon"
+                  ]
+                },
+                "coordinates": {
+                  "minItems": 4,
+                  "type": "array",
+                  "items": {
+                    "type": "array",
+                    "items": {
+                      "minItems": 2,
+                      "type": "array",
+                      "items": {
+                        "type": "number"
+                      },
+                      "example": [
+                        10.4,
+                        60.5
+                      ]
+                    }
+                  }
+                }
+              },
+              "nullable": true
+            },
+            "since": {
+              "type": "string",
+              "format": "date-time",
+              "nullable": true
+            },
+            "mmsi": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "nullable": true
+            },
+            "shipTypes": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "nullable": true
+            },
+            "countryCodes": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "nullable": true
+            }
+          },
+          "additionalProperties": false
+        },
+        "Ais.LiveApi.Api.LatestAis.Models.LatestAisFilterInput": {
+          "type": "object",
+          "properties": {
+            "geometry": {
+              "title": "GeoJson Polygon Geometry",
+              "required": [
+                "type",
+                "coordinates"
+              ],
+              "type": "object",
+              "properties": {
+                "type": {
+                  "enum": [
+                    "Polygon"
+                  ]
+                },
+                "coordinates": {
+                  "minItems": 4,
+                  "type": "array",
+                  "items": {
+                    "type": "array",
+                    "items": {
+                      "minItems": 2,
+                      "type": "array",
+                      "items": {
+                        "type": "number"
+                      },
+                      "example": [
+                        10.4,
+                        60.5
+                      ]
+                    }
+                  }
+                }
+              },
+              "nullable": true
+            },
+            "since": {
+              "type": "string",
+              "format": "date-time",
+              "nullable": true
+            },
+            "mmsi": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "nullable": true
+            },
+            "shipTypes": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "nullable": true
+            },
+            "countryCodes": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "nullable": true
+            },
+            "includePosition": {
+              "type": "boolean"
+            },
+            "includeStatic": {
+              "type": "boolean"
+            },
+            "includeAton": {
+              "type": "boolean"
+            },
+            "includeSafetyRelated": {
+              "type": "boolean"
+            },
+            "includeBinaryBroadcastMetHyd": {
+              "type": "boolean"
+            }
+          },
+          "additionalProperties": false
+        },
+        "Ais.LiveApi.Api.LatestAis.Models.ModelFormat": {
+          "enum": [
+            "Json",
+            "Geojson",
+            "FeatureCollection"
+          ],
+          "type": "string"
+        },
+        "Ais.LiveApi.Api.LiveAis.Models.LiveAisCombinedFilterInput": {
+          "type": "object",
+          "properties": {
+            "modelType": {
+              "$ref": "#/components/schemas/Ais.Shared.Models.Enums.ModelType"
+            },
+            "geometry": {
+              "title": "GeoJson Polygon Geometry",
+              "required": [
+                "type",
+                "coordinates"
+              ],
+              "type": "object",
+              "properties": {
+                "type": {
+                  "enum": [
+                    "Polygon"
+                  ]
+                },
+                "coordinates": {
+                  "minItems": 4,
+                  "type": "array",
+                  "items": {
+                    "type": "array",
+                    "items": {
+                      "minItems": 2,
+                      "type": "array",
+                      "items": {
+                        "type": "number"
+                      },
+                      "example": [
+                        10.4,
+                        60.5
+                      ]
+                    }
+                  }
+                }
+              },
+              "nullable": true
+            },
+            "since": {
+              "type": "string",
+              "format": "date-time",
+              "nullable": true
+            },
+            "mmsi": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "nullable": true
+            },
+            "shipTypes": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "nullable": true
+            },
+            "countryCodes": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "nullable": true
+            },
+            "downsample": {
+              "type": "boolean"
+            }
+          },
+          "additionalProperties": false
+        },
+        "Ais.LiveApi.Api.LiveAis.Models.LiveAisFilterInput": {
+          "type": "object",
+          "properties": {
+            "geometry": {
+              "title": "GeoJson Polygon Geometry",
+              "required": [
+                "type",
+                "coordinates"
+              ],
+              "type": "object",
+              "properties": {
+                "type": {
+                  "enum": [
+                    "Polygon"
+                  ]
+                },
+                "coordinates": {
+                  "minItems": 4,
+                  "type": "array",
+                  "items": {
+                    "type": "array",
+                    "items": {
+                      "minItems": 2,
+                      "type": "array",
+                      "items": {
+                        "type": "number"
+                      },
+                      "example": [
+                        10.4,
+                        60.5
+                      ]
+                    }
+                  }
+                }
+              },
+              "nullable": true
+            },
+            "since": {
+              "type": "string",
+              "format": "date-time",
+              "nullable": true
+            },
+            "mmsi": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "nullable": true
+            },
+            "shipTypes": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "nullable": true
+            },
+            "countryCodes": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "nullable": true
+            },
+            "includePosition": {
+              "type": "boolean"
+            },
+            "includeStatic": {
+              "type": "boolean"
+            },
+            "includeAton": {
+              "type": "boolean"
+            },
+            "includeSafetyRelated": {
+              "type": "boolean"
+            },
+            "includeBinaryBroadcastMetHyd": {
+              "type": "boolean"
+            },
+            "downsample": {
+              "type": "boolean"
+            }
+          },
+          "additionalProperties": false
+        },
+        "Ais.LiveApi.Api.LiveAis.Models.ModelFormat": {
+          "enum": [
+            "Json",
+            "Geojson"
+          ],
+          "type": "string"
+        },
+        "Ais.Shared.Messages.Enums.MetHydBeaufortScale": {
+          "enum": [
+            "Flat",
+            "RipplesWithoutCrests",
+            "SmallWavelets",
+            "LargeWavelets",
+            "SmallWaves",
+            "ModerateLongerWaves",
+            "LargeWaves",
+            "SeaHeapsUp",
+            "ModeratelyHighWaves",
+            "HighWaves",
+            "VeryHighWaves",
+            "ExceptionallyHighWaves",
+            "HugeWaves",
+            "DefaultNotAvailable",
+            "ReservedForFuture1",
+            "ReservedForFuture2"
+          ],
+          "type": "string"
+        },
+        "Ais.Shared.Messages.Enums.MetHydIce": {
+          "enum": [
+            "No",
+            "Yes",
+            "Reserved",
+            "DefaultNotAvailable"
+          ],
+          "type": "string"
+        },
+        "Ais.Shared.Messages.Enums.MetHydPrecipitation": {
+          "enum": [
+            "Reserved1",
+            "Rain",
+            "Thunderstorm",
+            "FreezingRain",
+            "MixedIce",
+            "Snow",
+            "Reserved2",
+            "DefaultNotAvailable"
+          ],
+          "type": "string"
+        },
+        "Ais.Shared.Messages.Enums.MetHydTrend": {
+          "enum": [
+            "Steady",
+            "Decreasing",
+            "Increasing",
+            "DefaultNotAvailable"
+          ],
+          "type": "string"
+        },
+        "Ais.Shared.Messages.OutputMessages.AisComboFull": {
+          "type": "object",
+          "properties": {
+            "mmsi": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "msgtime": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "altitude": {
+              "type": "integer",
+              "format": "int32",
+              "nullable": true
+            },
+            "courseOverGround": {
+              "type": "number",
+              "format": "double",
+              "nullable": true
+            },
+            "latitude": {
+              "type": "number",
+              "format": "double",
+              "nullable": true
+            },
+            "longitude": {
+              "type": "number",
+              "format": "double",
+              "nullable": true
+            },
+            "navigationalStatus": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "rateOfTurn": {
+              "type": "number",
+              "format": "double",
+              "nullable": true
+            },
+            "speedOverGround": {
+              "type": "number",
+              "format": "double",
+              "nullable": true
+            },
+            "trueHeading": {
+              "type": "integer",
+              "format": "int32",
+              "nullable": true
+            },
+            "imoNumber": {
+              "type": "integer",
+              "format": "int32",
+              "nullable": true
+            },
+            "callSign": {
+              "type": "string",
+              "nullable": true
+            },
+            "name": {
+              "type": "string",
+              "nullable": true
+            },
+            "destination": {
+              "type": "string",
+              "nullable": true
+            },
+            "eta": {
+              "type": "string",
+              "nullable": true
+            },
+            "draught": {
+              "type": "integer",
+              "format": "int32",
+              "nullable": true
+            },
+            "shipLength": {
+              "type": "integer",
+              "format": "int32",
+              "nullable": true
+            },
+            "shipWidth": {
+              "type": "integer",
+              "format": "int32",
+              "nullable": true
+            },
+            "shipType": {
+              "type": "integer",
+              "format": "int32",
+              "nullable": true
+            },
+            "dimensionA": {
+              "type": "integer",
+              "format": "int32",
+              "nullable": true
+            },
+            "dimensionB": {
+              "type": "integer",
+              "format": "int32",
+              "nullable": true
+            },
+            "dimensionC": {
+              "type": "integer",
+              "format": "int32",
+              "nullable": true
+            },
+            "dimensionD": {
+              "type": "integer",
+              "format": "int32",
+              "nullable": true
+            },
+            "positionFixingDeviceType": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "reportClass": {
+              "type": "string"
+            },
+            "msgtimeStatic": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          "additionalProperties": false
+        },
+        "Ais.Shared.Messages.OutputMessages.AisComboSimple": {
+          "type": "object",
+          "properties": {
+            "courseOverGround": {
+              "type": "number",
+              "format": "double",
+              "nullable": true
+            },
+            "latitude": {
+              "type": "number",
+              "format": "double",
+              "nullable": true
+            },
+            "longitude": {
+              "type": "number",
+              "format": "double",
+              "nullable": true
+            },
+            "name": {
+              "type": "string",
+              "nullable": true
+            },
+            "rateOfTurn": {
+              "type": "number",
+              "format": "double",
+              "nullable": true
+            },
+            "shipType": {
+              "type": "integer",
+              "format": "int32",
+              "nullable": true
+            },
+            "speedOverGround": {
+              "type": "number",
+              "format": "double",
+              "nullable": true
+            },
+            "trueHeading": {
+              "type": "integer",
+              "format": "int32",
+              "nullable": true
+            },
+            "navigationalStatus": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "mmsi": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "msgtime": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          "additionalProperties": false
+        },
+        "Ais.Shared.Messages.OutputMessages.OutputAtonMessage": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "nullable": true,
+              "readOnly": true
+            },
+            "messageType": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "mmsi": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "msgtime": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "dimensionA": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "dimensionB": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "dimensionC": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "dimensionD": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "typeOfAidsToNavigation": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "latitude": {
+              "type": "number",
+              "format": "double",
+              "nullable": true
+            },
+            "longitude": {
+              "type": "number",
+              "format": "double",
+              "nullable": true
+            },
+            "name": {
+              "type": "string",
+              "nullable": true
+            },
+            "typeOfElectronicFixingDevice": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          "additionalProperties": false
+        },
+        "Ais.Shared.Messages.OutputMessages.OutputBinaryBroadcastMessageMetHyd": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "nullable": true,
+              "readOnly": true
+            },
+            "messageType": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "mmsi": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "msgtime": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "functionalId": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "designatedAreaCode": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "latitude": {
+              "type": "number",
+              "format": "double",
+              "nullable": true
+            },
+            "longitude": {
+              "type": "number",
+              "format": "double",
+              "nullable": true
+            },
+            "day": {
+              "type": "integer",
+              "format": "int32",
+              "nullable": true
+            },
+            "hour": {
+              "type": "integer",
+              "format": "int32",
+              "nullable": true
+            },
+            "minute": {
+              "type": "integer",
+              "format": "int32",
+              "nullable": true
+            },
+            "avgWindSpeed": {
+              "type": "integer",
+              "format": "int32",
+              "nullable": true
+            },
+            "windGust": {
+              "type": "integer",
+              "format": "int32",
+              "nullable": true
+            },
+            "windDirection": {
+              "type": "integer",
+              "format": "int32",
+              "nullable": true
+            },
+            "windGustDirection": {
+              "type": "integer",
+              "format": "int32",
+              "nullable": true
+            },
+            "airTemperature": {
+              "type": "number",
+              "format": "double",
+              "nullable": true
+            },
+            "relativeHumidity": {
+              "type": "integer",
+              "format": "int32",
+              "nullable": true
+            },
+            "dewPoint": {
+              "type": "number",
+              "format": "double",
+              "nullable": true
+            },
+            "airPressure": {
+              "type": "integer",
+              "format": "int32",
+              "nullable": true
+            },
+            "airPressureTendency": {
+              "$ref": "#/components/schemas/Ais.Shared.Messages.Enums.MetHydTrend"
+            },
+            "horizontalVisibility": {
+              "type": "number",
+              "format": "double",
+              "nullable": true
+            },
+            "waterLevel": {
+              "type": "number",
+              "format": "double",
+              "nullable": true
+            },
+            "waterLevelTrend": {
+              "$ref": "#/components/schemas/Ais.Shared.Messages.Enums.MetHydTrend"
+            },
+            "surfaceCurrentSpeed": {
+              "type": "number",
+              "format": "double",
+              "nullable": true
+            },
+            "surfaceCurrentDirection": {
+              "type": "integer",
+              "format": "int32",
+              "nullable": true
+            },
+            "currentSpeed2": {
+              "type": "number",
+              "format": "double",
+              "nullable": true
+            },
+            "currentDirection2": {
+              "type": "integer",
+              "format": "int32",
+              "nullable": true
+            },
+            "currentMeasuringLevel2": {
+              "type": "integer",
+              "format": "int32",
+              "nullable": true
+            },
+            "currentSpeed3": {
+              "type": "number",
+              "format": "double",
+              "nullable": true
+            },
+            "currentDirection3": {
+              "type": "integer",
+              "format": "int32",
+              "nullable": true
+            },
+            "currentMeasuringLevel3": {
+              "type": "integer",
+              "format": "int32",
+              "nullable": true
+            },
+            "significantWaveHeight": {
+              "type": "number",
+              "format": "double",
+              "nullable": true
+            },
+            "wavePeriod": {
+              "type": "integer",
+              "format": "int32",
+              "nullable": true
+            },
+            "waveDirection": {
+              "type": "integer",
+              "format": "int32",
+              "nullable": true
+            },
+            "swellHeight": {
+              "type": "number",
+              "format": "double",
+              "nullable": true
+            },
+            "swellPeriod": {
+              "type": "integer",
+              "format": "int32",
+              "nullable": true
+            },
+            "swellDirection": {
+              "type": "integer",
+              "format": "int32",
+              "nullable": true
+            },
+            "seaState": {
+              "$ref": "#/components/schemas/Ais.Shared.Messages.Enums.MetHydBeaufortScale"
+            },
+            "waterTemperature": {
+              "type": "number",
+              "format": "double",
+              "nullable": true
+            },
+            "precipitationType": {
+              "$ref": "#/components/schemas/Ais.Shared.Messages.Enums.MetHydPrecipitation"
+            },
+            "salinity": {
+              "type": "number",
+              "format": "double",
+              "nullable": true
+            },
+            "ice": {
+              "$ref": "#/components/schemas/Ais.Shared.Messages.Enums.MetHydIce"
+            }
+          },
+          "additionalProperties": false
+        },
+        "Ais.Shared.Messages.OutputMessages.OutputPositionMessage": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "nullable": true,
+              "readOnly": true
+            },
+            "messageType": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "courseOverGround": {
+              "type": "number",
+              "format": "double",
+              "nullable": true
+            },
+            "aisClass": {
+              "type": "string",
+              "nullable": true
+            },
+            "altitude": {
+              "type": "integer",
+              "format": "int32",
+              "nullable": true
+            },
+            "latitude": {
+              "type": "number",
+              "format": "double",
+              "nullable": true
+            },
+            "longitude": {
+              "type": "number",
+              "format": "double",
+              "nullable": true
+            },
+            "navigationalStatus": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "rateOfTurn": {
+              "type": "number",
+              "format": "double",
+              "nullable": true
+            },
+            "speedOverGround": {
+              "type": "number",
+              "format": "double",
+              "nullable": true
+            },
+            "trueHeading": {
+              "type": "integer",
+              "format": "int32",
+              "nullable": true
+            },
+            "mmsi": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "msgtime": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          "additionalProperties": false
+        },
+        "Ais.Shared.Messages.OutputMessages.OutputSafetyRelatedMessage": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "nullable": true,
+              "readOnly": true
+            },
+            "messageType": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "mmsi": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "msgtime": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "sequenceNumber": {
+              "type": "integer",
+              "format": "int32",
+              "nullable": true
+            },
+            "destinationMmsi": {
+              "type": "integer",
+              "format": "int32",
+              "nullable": true
+            },
+            "safetyRelatedText": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          "additionalProperties": false
+        },
+        "Ais.Shared.Messages.OutputMessages.OutputStaticDataMessage": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "nullable": true,
+              "readOnly": true
+            },
+            "messageType": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "mmsi": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "msgtime": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "imoNumber": {
+              "type": "integer",
+              "format": "int32",
+              "nullable": true
+            },
+            "callSign": {
+              "type": "string",
+              "nullable": true
+            },
+            "destination": {
+              "type": "string",
+              "nullable": true
+            },
+            "eta": {
+              "type": "string",
+              "nullable": true
+            },
+            "name": {
+              "type": "string",
+              "nullable": true
+            },
+            "draught": {
+              "type": "integer",
+              "format": "int32",
+              "nullable": true
+            },
+            "shipLength": {
+              "type": "integer",
+              "format": "int32",
+              "nullable": true
+            },
+            "shipWidth": {
+              "type": "integer",
+              "format": "int32",
+              "nullable": true
+            },
+            "shipType": {
+              "type": "integer",
+              "format": "int32",
+              "nullable": true
+            },
+            "dimensionA": {
+              "type": "integer",
+              "format": "int32",
+              "nullable": true
+            },
+            "dimensionB": {
+              "type": "integer",
+              "format": "int32",
+              "nullable": true
+            },
+            "dimensionC": {
+              "type": "integer",
+              "format": "int32",
+              "nullable": true
+            },
+            "dimensionD": {
+              "type": "integer",
+              "format": "int32",
+              "nullable": true
+            },
+            "positionFixingDeviceType": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "reportClass": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        },
+        "Ais.Shared.Models.Enums.ModelType": {
+          "enum": [
+            "Simple",
+            "Full"
+          ],
+          "type": "string"
+        }
+      }
+    }
+  }

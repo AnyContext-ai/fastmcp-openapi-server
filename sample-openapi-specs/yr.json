@@ -1,0 +1,1518 @@
+{
+    "openapi": "3.1.0",
+    "info": {
+      "title": "Locationforecast",
+      "description": "Weather forecast for a specified place",
+      "termsOfService": "/doc/TermsOfService",
+      "contact": {
+        "name": "Developer Support",
+        "url": "http://met.no",
+        "email": "weatherapi-adm@met.no"
+      },
+      "license": {
+        "name": "CC BY 4.0",
+        "url": "http://creativecommons.org/licenses/by/4.0"
+      },
+      "version": "2.0"
+    },
+    "servers": [
+      {
+        "url": "https://api.met.no/weatherapi/locationforecast/2.0"
+      }
+    ],
+    "paths": {
+      "/changelog": {
+        "get": {
+          "tags": [
+            "metadata"
+          ],
+          "operationId": "getChangelog",
+          "description": "RSS feed of changes to this product",
+          "responses": {
+            "200": {
+              "description": "OK",
+              "content": {}
+            }
+          },
+          "x-mojo-name": "changelog"
+        }
+      },
+      "/classic": {
+        "get": {
+          "tags": [
+            "data"
+          ],
+          "operationId": "getWeatherForecastClassic",
+          "description": "Weather forecast for a specified place",
+          "parameters": [
+            {
+              "name": "altitude",
+              "in": "query",
+              "description": "Whole meters above sea level",
+              "schema": {
+                "type": "integer",
+                "format": "integer"
+              }
+            },
+            {
+              "name": "lat",
+              "in": "query",
+              "description": "Latitude",
+              "required": true,
+              "schema": {
+                "type": "number",
+                "format": "float"
+              }
+            },
+            {
+              "name": "lon",
+              "in": "query",
+              "description": "Longitude",
+              "required": true,
+              "schema": {
+                "type": "number",
+                "format": "float"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Success",
+              "content": {
+                "application/xml": {
+                  "schema": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "204": {
+              "description": "204 No Content",
+              "content": {}
+            },
+            "400": {
+              "description": "400 Bad Request",
+              "content": {}
+            },
+            "401": {
+              "description": "401 Unauthorized",
+              "content": {}
+            },
+            "403": {
+              "description": "403 Forbidden",
+              "content": {}
+            },
+            "404": {
+              "description": "404 Not Found",
+              "content": {}
+            },
+            "422": {
+              "description": "422 Unprocessable Entity",
+              "content": {}
+            },
+            "429": {
+              "description": "429 Too Many Requests",
+              "content": {}
+            },
+            "500": {
+              "description": "500 Internal Server Error",
+              "content": {}
+            },
+            "502": {
+              "description": "502 Bad Gateway",
+              "content": {}
+            },
+            "503": {
+              "description": "503 Service Unavailable",
+              "content": {}
+            },
+            "504": {
+              "description": "504 Gateway Timeout",
+              "content": {}
+            }
+          },
+          "x-mojo-name": "run"
+        }
+      },
+      "/classic.{format}": {
+        "get": {
+          "tags": [
+            "data"
+          ],
+          "operationId": "getWeatherForecastXml",
+          "description": "Weather forecast for a specified place",
+          "parameters": [
+            {
+              "name": "altitude",
+              "in": "query",
+              "description": "Whole meters above sea level",
+              "schema": {
+                "type": "integer",
+                "format": "integer"
+              }
+            },
+            {
+              "name": "lat",
+              "in": "query",
+              "description": "Latitude",
+              "required": true,
+              "schema": {
+                "type": "number",
+                "format": "float"
+              }
+            },
+            {
+              "name": "lon",
+              "in": "query",
+              "description": "Longitude",
+              "required": true,
+              "schema": {
+                "type": "number",
+                "format": "float"
+              }
+            },
+            {
+              "name": "format",
+              "in": "path",
+              "description": "format code (file extension)",
+              "required": true,
+              "schema": {
+                "type": "string",
+                "format": "string",
+                "enum": [
+                  "xml"
+                ]
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Success",
+              "content": {
+                "application/xml": {
+                  "schema": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "204": {
+              "description": "204 No Content",
+              "content": {}
+            },
+            "400": {
+              "description": "400 Bad Request",
+              "content": {}
+            },
+            "401": {
+              "description": "401 Unauthorized",
+              "content": {}
+            },
+            "403": {
+              "description": "403 Forbidden",
+              "content": {}
+            },
+            "404": {
+              "description": "404 Not Found",
+              "content": {}
+            },
+            "422": {
+              "description": "422 Unprocessable Entity",
+              "content": {}
+            },
+            "429": {
+              "description": "429 Too Many Requests",
+              "content": {}
+            },
+            "500": {
+              "description": "500 Internal Server Error",
+              "content": {}
+            },
+            "502": {
+              "description": "502 Bad Gateway",
+              "content": {}
+            },
+            "503": {
+              "description": "503 Service Unavailable",
+              "content": {}
+            },
+            "504": {
+              "description": "504 Gateway Timeout",
+              "content": {}
+            }
+          },
+          "x-mojo-name": "run"
+        }
+      },
+      "/compact": {
+        "get": {
+          "tags": [
+            "data"
+          ],
+          "operationId": "getWeatherForecastCompact",
+          "description": "Weather forecast for a specified place",
+          "parameters": [
+            {
+              "name": "altitude",
+              "in": "query",
+              "description": "Whole meters above sea level",
+              "schema": {
+                "type": "integer",
+                "format": "integer"
+              }
+            },
+            {
+              "name": "lat",
+              "in": "query",
+              "description": "Latitude",
+              "required": true,
+              "schema": {
+                "type": "number",
+                "format": "float"
+              }
+            },
+            {
+              "name": "lon",
+              "in": "query",
+              "description": "Longitude",
+              "required": true,
+              "schema": {
+                "type": "number",
+                "format": "float"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Success",
+              "content": {
+                "application/json;charset=UTF-8": {
+                  "schema": {
+                    "$ref": "#/components/schemas/METJSONForecast"
+                  }
+                }
+              }
+            },
+            "204": {
+              "description": "204 No Content",
+              "content": {}
+            },
+            "400": {
+              "description": "400 Bad Request",
+              "content": {}
+            },
+            "401": {
+              "description": "401 Unauthorized",
+              "content": {}
+            },
+            "403": {
+              "description": "403 Forbidden",
+              "content": {}
+            },
+            "404": {
+              "description": "404 Not Found",
+              "content": {}
+            },
+            "422": {
+              "description": "422 Unprocessable Entity",
+              "content": {}
+            },
+            "429": {
+              "description": "429 Too Many Requests",
+              "content": {}
+            },
+            "500": {
+              "description": "500 Internal Server Error",
+              "content": {}
+            },
+            "502": {
+              "description": "502 Bad Gateway",
+              "content": {}
+            },
+            "503": {
+              "description": "503 Service Unavailable",
+              "content": {}
+            },
+            "504": {
+              "description": "504 Gateway Timeout",
+              "content": {}
+            }
+          },
+          "x-mojo-name": "run"
+        }
+      },
+      "/compact.{format}": {
+        "get": {
+          "tags": [
+            "data"
+          ],
+          "operationId": "getWeatherForecastCompactXml",
+          "description": "Weather forecast for a specified place",
+          "parameters": [
+            {
+              "name": "altitude",
+              "in": "query",
+              "description": "Whole meters above sea level",
+              "schema": {
+                "type": "integer",
+                "format": "integer"
+              }
+            },
+            {
+              "name": "lat",
+              "in": "query",
+              "description": "Latitude",
+              "required": true,
+              "schema": {
+                "type": "number",
+                "format": "float"
+              }
+            },
+            {
+              "name": "lon",
+              "in": "query",
+              "description": "Longitude",
+              "required": true,
+              "schema": {
+                "type": "number",
+                "format": "float"
+              }
+            },
+            {
+              "name": "format",
+              "in": "path",
+              "description": "format code (file extension)",
+              "required": true,
+              "schema": {
+                "type": "string",
+                "format": "string",
+                "enum": [
+                  "json"
+                ]
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Success",
+              "content": {
+                "application/json;charset=UTF-8": {
+                  "schema": {
+                    "$ref": "#/components/schemas/METJSONForecast"
+                  }
+                }
+              }
+            },
+            "204": {
+              "description": "204 No Content",
+              "content": {}
+            },
+            "400": {
+              "description": "400 Bad Request",
+              "content": {}
+            },
+            "401": {
+              "description": "401 Unauthorized",
+              "content": {}
+            },
+            "403": {
+              "description": "403 Forbidden",
+              "content": {}
+            },
+            "404": {
+              "description": "404 Not Found",
+              "content": {}
+            },
+            "422": {
+              "description": "422 Unprocessable Entity",
+              "content": {}
+            },
+            "429": {
+              "description": "429 Too Many Requests",
+              "content": {}
+            },
+            "500": {
+              "description": "500 Internal Server Error",
+              "content": {}
+            },
+            "502": {
+              "description": "502 Bad Gateway",
+              "content": {}
+            },
+            "503": {
+              "description": "503 Service Unavailable",
+              "content": {}
+            },
+            "504": {
+              "description": "504 Gateway Timeout",
+              "content": {}
+            }
+          },
+          "x-mojo-name": "run"
+        }
+      },
+      "/complete": {
+        "get": {
+          "tags": [
+            "data"
+          ],
+          "operationId": "getWeatherForecastComplete",
+          "description": "Weather forecast for a specified place",
+          "parameters": [
+            {
+              "name": "altitude",
+              "in": "query",
+              "description": "Whole meters above sea level",
+              "schema": {
+                "type": "integer",
+                "format": "integer"
+              }
+            },
+            {
+              "name": "lat",
+              "in": "query",
+              "description": "Latitude",
+              "required": true,
+              "schema": {
+                "type": "number",
+                "format": "float"
+              }
+            },
+            {
+              "name": "lon",
+              "in": "query",
+              "description": "Longitude",
+              "required": true,
+              "schema": {
+                "type": "number",
+                "format": "float"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Success",
+              "content": {
+                "application/json;charset=UTF-8": {
+                  "schema": {
+                    "$ref": "#/components/schemas/METJSONForecast"
+                  }
+                }
+              }
+            },
+            "204": {
+              "description": "204 No Content",
+              "content": {}
+            },
+            "400": {
+              "description": "400 Bad Request",
+              "content": {}
+            },
+            "401": {
+              "description": "401 Unauthorized",
+              "content": {}
+            },
+            "403": {
+              "description": "403 Forbidden",
+              "content": {}
+            },
+            "404": {
+              "description": "404 Not Found",
+              "content": {}
+            },
+            "422": {
+              "description": "422 Unprocessable Entity",
+              "content": {}
+            },
+            "429": {
+              "description": "429 Too Many Requests",
+              "content": {}
+            },
+            "500": {
+              "description": "500 Internal Server Error",
+              "content": {}
+            },
+            "502": {
+              "description": "502 Bad Gateway",
+              "content": {}
+            },
+            "503": {
+              "description": "503 Service Unavailable",
+              "content": {}
+            },
+            "504": {
+              "description": "504 Gateway Timeout",
+              "content": {}
+            }
+          },
+          "x-mojo-name": "run"
+        }
+      },
+      "/complete.{format}": {
+        "get": {
+          "tags": [
+            "data"
+          ],
+          "operationId": "getWeatherForecastCompleteXml",
+          "description": "Weather forecast for a specified place",
+          "parameters": [
+            {
+              "name": "altitude",
+              "in": "query",
+              "description": "Whole meters above sea level",
+              "schema": {
+                "type": "integer",
+                "format": "integer"
+              }
+            },
+            {
+              "name": "lat",
+              "in": "query",
+              "description": "Latitude",
+              "required": true,
+              "schema": {
+                "type": "number",
+                "format": "float"
+              }
+            },
+            {
+              "name": "lon",
+              "in": "query",
+              "description": "Longitude",
+              "required": true,
+              "schema": {
+                "type": "number",
+                "format": "float"
+              }
+            },
+            {
+              "name": "format",
+              "in": "path",
+              "description": "format code (file extension)",
+              "required": true,
+              "schema": {
+                "type": "string",
+                "format": "string",
+                "enum": [
+                  "json"
+                ]
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Success",
+              "content": {
+                "application/json;charset=UTF-8": {
+                  "schema": {
+                    "$ref": "#/components/schemas/METJSONForecast"
+                  }
+                }
+              }
+            },
+            "204": {
+              "description": "204 No Content",
+              "content": {}
+            },
+            "400": {
+              "description": "400 Bad Request",
+              "content": {}
+            },
+            "401": {
+              "description": "401 Unauthorized",
+              "content": {}
+            },
+            "403": {
+              "description": "403 Forbidden",
+              "content": {}
+            },
+            "404": {
+              "description": "404 Not Found",
+              "content": {}
+            },
+            "422": {
+              "description": "422 Unprocessable Entity",
+              "content": {}
+            },
+            "429": {
+              "description": "429 Too Many Requests",
+              "content": {}
+            },
+            "500": {
+              "description": "500 Internal Server Error",
+              "content": {}
+            },
+            "502": {
+              "description": "502 Bad Gateway",
+              "content": {}
+            },
+            "503": {
+              "description": "503 Service Unavailable",
+              "content": {}
+            },
+            "504": {
+              "description": "504 Gateway Timeout",
+              "content": {}
+            }
+          },
+          "x-mojo-name": "run"
+        }
+      },
+      "/healthz": {
+        "get": {
+          "tags": [
+            "metadata"
+          ],
+          "description": "Check health status for product",
+          "responses": {
+            "200": {
+              "description": "OK",
+              "content": {}
+            }
+          },
+          "x-mojo-name": "healthz"
+        }
+      },
+      "/mini": {
+        "get": {
+          "tags": [
+            "data"
+          ],
+          "operationId": "getWeatherForecastMini",
+          "description": "Weather forecast for a specified place",
+          "parameters": [
+            {
+              "name": "altitude",
+              "in": "query",
+              "description": "Whole meters above sea level",
+              "schema": {
+                "type": "integer",
+                "format": "integer"
+              }
+            },
+            {
+              "name": "lat",
+              "in": "query",
+              "description": "Latitude",
+              "required": true,
+              "schema": {
+                "type": "number",
+                "format": "float"
+              }
+            },
+            {
+              "name": "lon",
+              "in": "query",
+              "description": "Longitude",
+              "required": true,
+              "schema": {
+                "type": "number",
+                "format": "float"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Success",
+              "content": {
+                "application/json;charset=UTF-8": {
+                  "schema": {
+                    "$ref": "#/components/schemas/METJSONForecast"
+                  }
+                }
+              }
+            },
+            "204": {
+              "description": "204 No Content",
+              "content": {}
+            },
+            "400": {
+              "description": "400 Bad Request",
+              "content": {}
+            },
+            "401": {
+              "description": "401 Unauthorized",
+              "content": {}
+            },
+            "403": {
+              "description": "403 Forbidden",
+              "content": {}
+            },
+            "404": {
+              "description": "404 Not Found",
+              "content": {}
+            },
+            "422": {
+              "description": "422 Unprocessable Entity",
+              "content": {}
+            },
+            "429": {
+              "description": "429 Too Many Requests",
+              "content": {}
+            },
+            "500": {
+              "description": "500 Internal Server Error",
+              "content": {}
+            },
+            "502": {
+              "description": "502 Bad Gateway",
+              "content": {}
+            },
+            "503": {
+              "description": "503 Service Unavailable",
+              "content": {}
+            },
+            "504": {
+              "description": "504 Gateway Timeout",
+              "content": {}
+            }
+          },
+          "x-mojo-name": "run"
+        }
+      },
+      "/mini.{format}": {
+        "get": {
+          "tags": [
+            "data"
+          ],
+          "operationId": "getWeatherForecastMiniXml",
+          "description": "Weather forecast for a specified place",
+          "parameters": [
+            {
+              "name": "altitude",
+              "in": "query",
+              "description": "Whole meters above sea level",
+              "schema": {
+                "type": "integer",
+                "format": "integer"
+              }
+            },
+            {
+              "name": "lat",
+              "in": "query",
+              "description": "Latitude",
+              "required": true,
+              "schema": {
+                "type": "number",
+                "format": "float"
+              }
+            },
+            {
+              "name": "lon",
+              "in": "query",
+              "description": "Longitude",
+              "required": true,
+              "schema": {
+                "type": "number",
+                "format": "float"
+              }
+            },
+            {
+              "name": "format",
+              "in": "path",
+              "description": "format code (file extension)",
+              "required": true,
+              "schema": {
+                "type": "string",
+                "format": "string",
+                "enum": [
+                  "json"
+                ]
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Success",
+              "content": {
+                "application/json;charset=UTF-8": {
+                  "schema": {
+                    "$ref": "#/components/schemas/METJSONForecast"
+                  }
+                }
+              }
+            },
+            "204": {
+              "description": "204 No Content",
+              "content": {}
+            },
+            "400": {
+              "description": "400 Bad Request",
+              "content": {}
+            },
+            "401": {
+              "description": "401 Unauthorized",
+              "content": {}
+            },
+            "403": {
+              "description": "403 Forbidden",
+              "content": {}
+            },
+            "404": {
+              "description": "404 Not Found",
+              "content": {}
+            },
+            "422": {
+              "description": "422 Unprocessable Entity",
+              "content": {}
+            },
+            "429": {
+              "description": "429 Too Many Requests",
+              "content": {}
+            },
+            "500": {
+              "description": "500 Internal Server Error",
+              "content": {}
+            },
+            "502": {
+              "description": "502 Bad Gateway",
+              "content": {}
+            },
+            "503": {
+              "description": "503 Service Unavailable",
+              "content": {}
+            },
+            "504": {
+              "description": "504 Gateway Timeout",
+              "content": {}
+            }
+          },
+          "x-mojo-name": "run"
+        }
+      },
+      "/schema": {
+        "get": {
+          "tags": [
+            "metadata"
+          ],
+          "operationId": "getSchemaForXml",
+          "description": "Schema for XML data",
+          "responses": {
+            "200": {
+              "description": "OK",
+              "content": {}
+            }
+          },
+          "x-mojo-name": "schema"
+        }
+      },
+      "/status": {
+        "get": {
+          "tags": [
+            "data"
+          ],
+          "operationId": "getWeatherForecastStatus",
+          "description": "Weather forecast for a specified place",
+          "responses": {
+            "200": {
+              "description": "Success",
+              "content": {
+                "application/json;charset=UTF-8": {
+                  "schema": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "204": {
+              "description": "204 No Content",
+              "content": {}
+            },
+            "400": {
+              "description": "400 Bad Request",
+              "content": {}
+            },
+            "401": {
+              "description": "401 Unauthorized",
+              "content": {}
+            },
+            "403": {
+              "description": "403 Forbidden",
+              "content": {}
+            },
+            "404": {
+              "description": "404 Not Found",
+              "content": {}
+            },
+            "422": {
+              "description": "422 Unprocessable Entity",
+              "content": {}
+            },
+            "429": {
+              "description": "429 Too Many Requests",
+              "content": {}
+            },
+            "500": {
+              "description": "500 Internal Server Error",
+              "content": {}
+            },
+            "502": {
+              "description": "502 Bad Gateway",
+              "content": {}
+            },
+            "503": {
+              "description": "503 Service Unavailable",
+              "content": {}
+            },
+            "504": {
+              "description": "504 Gateway Timeout",
+              "content": {}
+            }
+          },
+          "x-mojo-name": "run"
+        }
+      },
+      "/status.{format}": {
+        "get": {
+          "tags": [
+            "data"
+          ],
+          "operationId": "getWeatherForecastStatusXml",
+          "description": "Weather forecast for a specified place",
+          "parameters": [
+            {
+              "name": "format",
+              "in": "path",
+              "description": "format code (file extension)",
+              "required": true,
+              "schema": {
+                "type": "string",
+                "format": "string",
+                "enum": [
+                  "json"
+                ]
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Success",
+              "content": {
+                "application/json;charset=UTF-8": {
+                  "schema": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "204": {
+              "description": "204 No Content",
+              "content": {}
+            },
+            "400": {
+              "description": "400 Bad Request",
+              "content": {}
+            },
+            "401": {
+              "description": "401 Unauthorized",
+              "content": {}
+            },
+            "403": {
+              "description": "403 Forbidden",
+              "content": {}
+            },
+            "404": {
+              "description": "404 Not Found",
+              "content": {}
+            },
+            "422": {
+              "description": "422 Unprocessable Entity",
+              "content": {}
+            },
+            "429": {
+              "description": "429 Too Many Requests",
+              "content": {}
+            },
+            "500": {
+              "description": "500 Internal Server Error",
+              "content": {}
+            },
+            "502": {
+              "description": "502 Bad Gateway",
+              "content": {}
+            },
+            "503": {
+              "description": "503 Service Unavailable",
+              "content": {}
+            },
+            "504": {
+              "description": "504 Gateway Timeout",
+              "content": {}
+            }
+          },
+          "x-mojo-name": "run"
+        }
+      }
+    },
+    "components": {
+      "schemas": {
+        "Forecast": {
+          "title": "Forecast timeseries",
+          "required": [
+            "meta",
+            "timeseries"
+          ],
+          "type": "object",
+          "properties": {
+            "meta": {
+              "required": [
+                "units",
+                "updated_at"
+              ],
+              "type": "object",
+              "properties": {
+                "units": {
+                  "$ref": "#/components/schemas/ForecastUnits"
+                },
+                "updated_at": {
+                  "type": "string",
+                  "description": "Update time for this forecast",
+                  "example": "2019-12-03T13:52:13.000Z"
+                }
+              }
+            },
+            "timeseries": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/ForecastTimeStep"
+              }
+            }
+          }
+        },
+        "ForecastSummary": {
+          "required": [
+            "symbol_code"
+          ],
+          "type": "object",
+          "properties": {
+            "symbol_code": {
+              "$ref": "#/components/schemas/WeatherSymbol"
+            }
+          },
+          "description": "Summary of weather conditions."
+        },
+        "ForecastTimeInstant": {
+          "type": "object",
+          "properties": {
+            "air_pressure_at_sea_level": {
+              "type": "number",
+              "description": "Air pressure at sea level",
+              "example": 1017.23
+            },
+            "air_temperature": {
+              "type": "number",
+              "description": "Air temperature",
+              "example": 17.1
+            },
+            "cloud_area_fraction": {
+              "type": "number",
+              "description": "Amount of sky covered by clouds.",
+              "example": 95.2
+            },
+            "cloud_area_fraction_high": {
+              "type": "number",
+              "description": "Amount of sky covered by clouds at high elevation.",
+              "example": 95.2
+            },
+            "cloud_area_fraction_low": {
+              "type": "number",
+              "description": "Amount of sky covered by clouds at low elevation.",
+              "example": 95.2
+            },
+            "cloud_area_fraction_medium": {
+              "type": "number",
+              "description": "Amount of sky covered by clouds at medium elevation.",
+              "example": 95.2
+            },
+            "dew_point_temperature": {
+              "type": "number",
+              "description": "Dew point temperature at sea level",
+              "example": 8.1
+            },
+            "fog_area_fraction": {
+              "type": "number",
+              "description": "Amount of area covered by fog.",
+              "example": 95.2
+            },
+            "relative_humidity": {
+              "type": "number",
+              "description": "Amount of humidity in the air.",
+              "example": 81.1
+            },
+            "wind_from_direction": {
+              "type": "number",
+              "description": "The direction wind is coming from, in degrees clockwise from North",
+              "example": 121.3
+            },
+            "wind_speed": {
+              "type": "number",
+              "description": "Speed of wind",
+              "example": 5.9
+            },
+            "wind_speed_of_gust": {
+              "type": "number",
+              "description": "Speed of wind gust",
+              "example": 15.9
+            }
+          },
+          "description": "Weather parameters valid for a specific point in time."
+        },
+        "ForecastTimePeriod": {
+          "type": "object",
+          "properties": {
+            "air_temperature_max": {
+              "type": "number",
+              "description": "Maximum air temperature in period",
+              "example": 17.1
+            },
+            "air_temperature_min": {
+              "type": "number",
+              "description": "Minimum air temperature in period",
+              "example": 11.1
+            },
+            "precipitation_amount": {
+              "type": "number",
+              "description": "Best estimate for amount of precipitation for this period",
+              "example": 1.71
+            },
+            "precipitation_amount_max": {
+              "type": "number",
+              "description": "Maximum amount of precipitation for this period",
+              "example": 4.32
+            },
+            "precipitation_amount_min": {
+              "type": "number",
+              "description": "Minimum amount of precipitation for this period",
+              "example": 4.32
+            },
+            "probability_of_precipitation": {
+              "type": "number",
+              "description": "Probability of any precipitation coming for this period",
+              "example": 37
+            },
+            "probability_of_thunder": {
+              "type": "number",
+              "description": "Probability of any thunder coming for this period",
+              "example": 54.32
+            },
+            "ultraviolet_index_clear_sky_max": {
+              "type": "number",
+              "description": "Maximum ultraviolet index if sky is clear",
+              "example": 1
+            }
+          },
+          "description": "Weather parameters valid for a specified time period."
+        },
+        "ForecastTimeStep": {
+          "title": "Forecast for a specific time step",
+          "required": [
+            "data",
+            "time"
+          ],
+          "type": "object",
+          "properties": {
+            "data": {
+              "required": [
+                "instant"
+              ],
+              "type": "object",
+              "properties": {
+                "instant": {
+                  "type": "object",
+                  "properties": {
+                    "details": {
+                      "$ref": "#/components/schemas/ForecastTimeInstant"
+                    }
+                  },
+                  "description": "Parameters which applies to this exact point in time"
+                },
+                "next_12_hours": {
+                  "required": [
+                    "details",
+                    "summary"
+                  ],
+                  "type": "object",
+                  "properties": {
+                    "details": {
+                      "$ref": "#/components/schemas/ForecastTimePeriod"
+                    },
+                    "summary": {
+                      "$ref": "#/components/schemas/ForecastSummary"
+                    }
+                  },
+                  "description": "Parameters with validity times over twelve hours. Will not exist for all time steps."
+                },
+                "next_1_hours": {
+                  "required": [
+                    "details",
+                    "summary"
+                  ],
+                  "type": "object",
+                  "properties": {
+                    "details": {
+                      "$ref": "#/components/schemas/ForecastTimePeriod"
+                    },
+                    "summary": {
+                      "$ref": "#/components/schemas/ForecastSummary"
+                    }
+                  },
+                  "description": "Parameters with validity times over one hour. Will not exist for all time steps."
+                },
+                "next_6_hours": {
+                  "required": [
+                    "details",
+                    "summary"
+                  ],
+                  "type": "object",
+                  "properties": {
+                    "details": {
+                      "$ref": "#/components/schemas/ForecastTimePeriod"
+                    },
+                    "summary": {
+                      "$ref": "#/components/schemas/ForecastSummary"
+                    }
+                  },
+                  "description": "Parameters with validity times over six hours. Will not exist for all time steps."
+                }
+              },
+              "description": "Forecast for a specific time"
+            },
+            "time": {
+              "type": "string",
+              "description": "The time these forecast values are valid for. Timestamp in format YYYY-MM-DDThh:mm:ssZ (ISO 8601)",
+              "example": "2019-12-03T14:00:00.000Z"
+            }
+          }
+        },
+        "ForecastUnits": {
+          "type": "object",
+          "properties": {
+            "air_pressure_at_sea_level": {
+              "type": "string",
+              "example": "hPa"
+            },
+            "air_temperature": {
+              "type": "string",
+              "example": "C"
+            },
+            "air_temperature_max": {
+              "type": "string",
+              "example": "C"
+            },
+            "air_temperature_min": {
+              "type": "string",
+              "example": "C"
+            },
+            "cloud_area_fraction": {
+              "type": "string",
+              "example": "%"
+            },
+            "cloud_area_fraction_high": {
+              "type": "string",
+              "example": "%"
+            },
+            "cloud_area_fraction_low": {
+              "type": "string",
+              "example": "%"
+            },
+            "cloud_area_fraction_medium": {
+              "type": "string",
+              "example": "%"
+            },
+            "dew_point_temperature": {
+              "type": "string",
+              "example": "C"
+            },
+            "fog_area_fraction": {
+              "type": "string",
+              "example": "%"
+            },
+            "precipitation_amount": {
+              "type": "string",
+              "example": "mm"
+            },
+            "precipitation_amount_max": {
+              "type": "string",
+              "example": "mm"
+            },
+            "precipitation_amount_min": {
+              "type": "string",
+              "example": "mm"
+            },
+            "probability_of_precipitation": {
+              "type": "string",
+              "example": "%"
+            },
+            "probability_of_thunder": {
+              "type": "string",
+              "example": "%"
+            },
+            "relative_humidity": {
+              "type": "string",
+              "example": "%"
+            },
+            "ultraviolet_index_clear_sky_max": {
+              "type": "string",
+              "example": "1"
+            },
+            "wind_from_direction": {
+              "type": "string",
+              "example": "degrees"
+            },
+            "wind_speed": {
+              "type": "string",
+              "example": "m/s"
+            },
+            "wind_speed_of_gust": {
+              "type": "string",
+              "example": "m/s"
+            }
+          }
+        },
+        "METJSONForecast": {
+          "title": "GeoJSON Forecast Timeseries",
+          "required": [
+            "geometry",
+            "properties",
+            "type"
+          ],
+          "type": "object",
+          "properties": {
+            "geometry": {
+              "$ref": "#/components/schemas/PointGeometry"
+            },
+            "properties": {
+              "$ref": "#/components/schemas/Forecast"
+            },
+            "type": {
+              "type": "string",
+              "example": "Feature",
+              "enum": [
+                "Feature"
+              ]
+            }
+          }
+        },
+        "PointGeometry": {
+          "title": "GeoJSON point type",
+          "required": [
+            "coordinates",
+            "type"
+          ],
+          "type": "object",
+          "properties": {
+            "coordinates": {
+              "minItems": 2,
+              "type": "array",
+              "description": "[longitude, latitude, altitude]. All numbers in decimal.",
+              "example": [
+                60.5,
+                11.59,
+                1001
+              ],
+              "items": {
+                "type": "number"
+              }
+            },
+            "type": {
+              "type": "string",
+              "enum": [
+                "Point"
+              ]
+            }
+          }
+        },
+        "WeatherSymbol": {
+          "type": "object",
+          "description": "A identifier that sums up the weather condition for this time period, see documentation.",
+          "example": "clearsky_day",
+          "enum": [
+            "clearsky_day",
+            "clearsky_night",
+            "clearsky_polartwilight",
+            "fair_day",
+            "fair_night",
+            "fair_polartwilight",
+            "lightssnowshowersandthunder_day",
+            "lightssnowshowersandthunder_night",
+            "lightssnowshowersandthunder_polartwilight",
+            "lightsnowshowers_day",
+            "lightsnowshowers_night",
+            "lightsnowshowers_polartwilight",
+            "heavyrainandthunder",
+            "heavysnowandthunder",
+            "rainandthunder",
+            "heavysleetshowersandthunder_day",
+            "heavysleetshowersandthunder_night",
+            "heavysleetshowersandthunder_polartwilight",
+            "heavysnow",
+            "heavyrainshowers_day",
+            "heavyrainshowers_night",
+            "heavyrainshowers_polartwilight",
+            "lightsleet",
+            "heavyrain",
+            "lightrainshowers_day",
+            "lightrainshowers_night",
+            "lightrainshowers_polartwilight",
+            "heavysleetshowers_day",
+            "heavysleetshowers_night",
+            "heavysleetshowers_polartwilight",
+            "lightsleetshowers_day",
+            "lightsleetshowers_night",
+            "lightsleetshowers_polartwilight",
+            "snow",
+            "heavyrainshowersandthunder_day",
+            "heavyrainshowersandthunder_night",
+            "heavyrainshowersandthunder_polartwilight",
+            "snowshowers_day",
+            "snowshowers_night",
+            "snowshowers_polartwilight",
+            "fog",
+            "snowshowersandthunder_day",
+            "snowshowersandthunder_night",
+            "snowshowersandthunder_polartwilight",
+            "lightsnowandthunder",
+            "heavysleetandthunder",
+            "lightrain",
+            "rainshowersandthunder_day",
+            "rainshowersandthunder_night",
+            "rainshowersandthunder_polartwilight",
+            "rain",
+            "lightsnow",
+            "lightrainshowersandthunder_day",
+            "lightrainshowersandthunder_night",
+            "lightrainshowersandthunder_polartwilight",
+            "heavysleet",
+            "sleetandthunder",
+            "lightrainandthunder",
+            "sleet",
+            "lightssleetshowersandthunder_day",
+            "lightssleetshowersandthunder_night",
+            "lightssleetshowersandthunder_polartwilight",
+            "lightsleetandthunder",
+            "partlycloudy_day",
+            "partlycloudy_night",
+            "partlycloudy_polartwilight",
+            "sleetshowersandthunder_day",
+            "sleetshowersandthunder_night",
+            "sleetshowersandthunder_polartwilight",
+            "rainshowers_day",
+            "rainshowers_night",
+            "rainshowers_polartwilight",
+            "snowandthunder",
+            "sleetshowers_day",
+            "sleetshowers_night",
+            "sleetshowers_polartwilight",
+            "cloudy",
+            "heavysnowshowersandthunder_day",
+            "heavysnowshowersandthunder_night",
+            "heavysnowshowersandthunder_polartwilight",
+            "heavysnowshowers_day",
+            "heavysnowshowers_night",
+            "heavysnowshowers_polartwilight"
+          ]
+        }
+      }
+    },
+    "x-original-swagger-version": "2.0"
+  }
