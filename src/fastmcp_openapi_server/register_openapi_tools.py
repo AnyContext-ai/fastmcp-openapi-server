@@ -18,7 +18,6 @@ OPENAPI_TO_PYTHON = {
 def sanitize_parameter_name(name: str) -> str:
     # Replace invalid characters with underscores
     sanitized = re.sub(r'\W|^(?=\d)', '_', name)
-    print(f"Sanitized name: {sanitized}")
     return sanitized
 
 
