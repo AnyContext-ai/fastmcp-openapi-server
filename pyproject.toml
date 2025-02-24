@@ -1,6 +1,6 @@
 [project]
 name = "fastmcp-openapi-server"
-version = "0.1.0"
+version = "0.1.1"
 description = "An MCP server that dynamically loads tools from an OpenAPI specification."
 readme = "README.md"
 requires-python = ">=3.10"
