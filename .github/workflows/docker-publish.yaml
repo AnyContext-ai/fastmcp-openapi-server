@@ -14,6 +14,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - name: Extract version from pyproject.toml
+        id: get_version
+        run: echo "VERSION=$(grep '^version =' pyproject.toml | sed -E 's/version = "(.*)"/\1/')" >> $GITHUB_ENV
+
       - name: Log in to GitHub Container Registry
         uses: docker/login-action@v2
         with:
@@ -24,7 +28,9 @@ jobs:
       - name: Build Docker image
         run: |
           docker build -t ghcr.io/anycontext-ai/fastmcp-openapi-server:latest .
+          docker build -t ghcr.io/anycontext-ai/fastmcp-openapi-server:${VERSION} -t ghcr.io/anycontext-ai/fastmcp-openapi-server:latest .
 
       - name: Push Docker image
         run: |
+          docker push ghcr.io/anycontext-ai/fastmcp-openapi-server:${VERSION}
           docker push ghcr.io/anycontext-ai/fastmcp-openapi-server:latest
