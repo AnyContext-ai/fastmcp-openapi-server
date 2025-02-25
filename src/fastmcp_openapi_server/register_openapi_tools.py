@@ -3,6 +3,7 @@ import functools
 from fastmcp import FastMCP
 from openapi_client import OpenAPIClient
 from typing import Any, Literal, Optional
+import re
 
 # OpenAPI type → Python type mapping
 OPENAPI_TO_PYTHON = {
@@ -13,6 +14,12 @@ OPENAPI_TO_PYTHON = {
     "array": list,
     "object": dict
 }
+
+def sanitize_parameter_name(name: str) -> str:
+    # Replace invalid characters with underscores
+    sanitized = re.sub(r'\W|^(?=\d)', '_', name)
+    return sanitized
+
 
 def get_python_type(schema: dict) -> Any:
     """Maps OpenAPI types to Python types, handling enums correctly."""
@@ -53,7 +60,7 @@ def register_openapi_tools(client: OpenAPIClient, mcp_server: FastMCP):
 
         # Extract path/query/header parameters with correct types
         for param in parameters:
-            param_name = param["name"]
+            param_name = sanitize_parameter_name(param["name"])
             param_schema = param.get("schema", {})
             param_type = get_python_type(param_schema)  # Determine correct type
             required = param.get("required", False)  # Check if required
@@ -82,7 +89,9 @@ def register_openapi_tools(client: OpenAPIClient, mcp_server: FastMCP):
             required_fields = schema.get("required", [])  # List of required fields
 
             for prop_name, prop_details in schema.get("properties", {}).items():
-                prop_type = get_python_type(prop_details)  # Determine correct type
+                orig_prop_name = prop_name
+                prop_name = sanitize_parameter_name(orig_prop_name)
+                prop_type = get_python_type(prop_details)
 
                 param_description = f"- `{prop_name}` ({prop_type.__name__})"
                 if prop_name not in required_fields:

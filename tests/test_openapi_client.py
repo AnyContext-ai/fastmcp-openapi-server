@@ -1,5 +1,5 @@
 import pytest
-from .openapi_client import OpenAPIClient
+from openapi_client import OpenAPIClient
 from openapi_client.type_definitions.type_definitions import OpenAPIOperation
 
 # Sample OpenAPI spec for testing
